@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Coding Quiz</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+
+        <header>
+            <!-- High scores goes in top left corner -->
+            <a href="highscore.html">Highscores</a>
+            <!-- Timer goes in top right corner -->
+            <div class="timer">
+                <div>Timer: </div>
+                <var id="countdown"></var>
+            </div>
+        </header>
+
+        <main>
+            <!-- Welcome page -->
+            <section class="welcome">
+                <h2>Coding Quiz Challenge</h2>
+                <article class="instructions">
+                    <p>
+                        Welcome to the coding quiz challenge! This is a timed quiz in which you will be asked a series of multiple-choice questions about JavaScript. Your timer will start at 75 seconds. For each wrong answer, 15 seconds will be deducted. The quiz ends when you have finished all of the questions or the timer runs out. Your score will be based on how many seconds you have remaining when the quiz is over. You will be able to view your score, enter your intials, and save your high score to view at a later date. You can access the high score page by clicking the link in the upper lefthand corner of this page. Click the button below to get started!
+                    </p>
+                </article>
+                <!-- clicking this button starts the quiz -->
+                <div>
+                    <button type="button" class="start-button">Start Quiz</button>
+                </div>
+            </section>
+            <!-- Defines empty elements for questions and answers to be populated in JavaScript -->
+            <!-- Set to display: none by default -->
+            <section class="question">
+                <h2 class="question-text">question</h2>
+                <div id="answer-container">
+                    <ol class="answers" type="a">
+                        <li>
+                            <button type="button" id="answer1">answer</button>
+                        </li>
+                        <li>
+                            <button type="button" id="answer2">answer</button>
+                        </li>
+                        <li>
+                            <button type="button" id="answer3">answer</button>
+                        </li>
+                        <li>
+                            <button type="button" id="answer4">answer</button>
+                        </li>
+                    </ol>
+                </div>
+                <p class="feedback">feedback</p>
+            </section>
+
+            <!-- Post quiz screen -->
+            <!-- Set to display: none as default -->
+            <section class="final-score">
+                <h2>All Done!</h2>
+                <p>Your final score is: </p>
+                <var id="final-score">SCORE</var><br>
+                <!-- form for user to input their initials for submission to the highscore page -->
+                <form>
+                    <lable for="initials">Enter initials: </lable>
+                    <input id="initials" name="intials" type="text">
+                    <button type="button" id="submit-init-button">Submit Initials</button>
+                </form>
+            </section>
+        </main>
+    <!-- link script file to html file -->
+    <script src="script.js"></script>
+    </body>
+</html>

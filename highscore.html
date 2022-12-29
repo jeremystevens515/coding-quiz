@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Highscores</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    
+    <body>
+        <!-- Highscores page -->
+        <main>
+            <h2>Highscores</h2>
+            <!-- blank ordered list to be populated by initials and remaining time on the timer -->
+            <ol class="highscore-list">
+                <li>
+                    <!-- these var element ids are shared with ids in the index html file -->
+                    <var id="initials">initials</var> - <var id="countdown">timer</var>
+                </li>
+            </ol>
+            <button type="button" id="go-back">Go Back</button>
+            <button type="button" id="clear-highscores">Clear Highscores</button>
+        </main>
+       <!-- link script file to html  -->
+    <script src="script.js"></script>
+    </body>
+</html>
