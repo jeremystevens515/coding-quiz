@@ -2,6 +2,7 @@
 // header
 var headerSection = document.querySelector('.header');
 var countdown = document.querySelector('#countdown');
+var score = 75;
 
 // main
 // welcome section
@@ -10,6 +11,7 @@ var startQuizButton = document.querySelector('.start-quiz-button');
 
 // question section
 var questionSection = document.querySelector('.question');
+var answersContainer = document.querySelector('.answers');
 var questionText = document.querySelector('.question-text');
 var answer1Button = document.querySelector('#answer1');
 var answer2Button = document.querySelector('#answer2');
@@ -19,7 +21,7 @@ var feedback = document.querySelector('.feedback');
 
 // final score section
 var finalScoreSection = document.querySelector('.final-score');
-var finalScore = document.querySelector('.final-score');
+var finalScore = document.querySelector('#final-score');
 var userInit = document.querySelector('.initials');
 var submitInitButton = document.querySelector('.submit-init-button');
 
@@ -133,51 +135,127 @@ function displayWelcomePage () {
     questionSection.style.display = 'none';
     finalScoreSection.style.display = 'none';
 }
+
 // create timer
-function timer() {
+function timer(s) {
     welcomeSection.style.display = 'none';
     questionSection.style.display = 'flex';
-    var timeLeft = 75;
+    var timeLeft = s;
 
     var timerInterval = setInterval(function(){
         if (timeLeft >= 0) {
-            countdown.textContent = timeLeft;
+            score = timeLeft;
+            countdown.textContent = score;
+            console.log(timeLeft);
             timeLeft--;
+            return;
+        } else if (score === 0) {
+            clearInterval(timerInterval);
+            displayFinalScore(score)
         } else {
             clearInterval(timerInterval);
-            
         }
     }, 1000);
 }
 
-// display question
-function displayQuestion(object) {
+// grading
+// wrong answer
+function wrongAnswer () {
+    console.log('container click');
+    feedback.textContent = 'Incorrect';
+    score = score - 15;
+    countdown.textContent = score;
+    console.log('Current score is: ' + score);
+}
+//  correct answer
+function correctAnswer (event) {
+    console.log('button click');
+    // event.stopPropagation();
+    feedback.textContent = 'Correct!'
+}
+
+// display questions
+// question 1
+function displayQuestion1(object) {
     feedback.textContent = '';
     questionText.textContent = object.question;
     answer1Button.textContent = object.answer1.text;
     answer2Button.textContent = object.answer2.text;
     answer3Button.textContent = object.answer3.text;
     answer4Button.textContent = object.answer4.text;
+
+    answer3Button.addEventListener('click', correctAnswer);
+    answersContainer.addEventListener('click', wrongAnswer, true);
+    answersContainer.addEventListener('click', () => {setTimeout(displayQuestion2(question2), 1000); }), true;     
 }
 
-// grade question
-function grading(object) {
-    answer1Button.addEventListener('click', isAns1Correct(object));
-    answer2Button.addEventListener('click', getIsCorrect);
-    answer3Button.addEventListener('click', getIsCorrect);
-    answer4Button.addEventListener('click', getIsCorrect);
+// question2
+function displayQuestion2(object) {
+    feedback.textContent = '';
+    questionText.textContent = object.question;
+    answer1Button.textContent = object.answer1.text;
+    answer2Button.textContent = object.answer2.text;
+    answer3Button.textContent = object.answer3.text;
+    answer4Button.textContent = object.answer4.text;
+
+    answer3Button.addEventListener('click', correctAnswer);
+    answersContainer.addEventListener('click', wrongAnswer);
+    answersContainer.addEventListener('click', () => {setTimeout(displayQuestion3(question3), 500); }); 
 }
 
-function isAns1Correct(object) {
-    if (object.answer1.isCorrect) {
-        feedback.textContent = "Correct!";
-    } else {
-        feedback.textContent = "Wrong";
-    }
+// question3
+function displayQuestion3(object) {
+    feedback.textContent = '';
+    questionText.textContent = object.question;
+    answer1Button.textContent = object.answer1.text;
+    answer2Button.textContent = object.answer2.text;
+    answer3Button.textContent = object.answer3.text;
+    answer4Button.textContent = object.answer4.text;
+
+    answer4Button.addEventListener('click', correctAnswer);
+    answersContainer.addEventListener('click', wrongAnswer);
+    answersContainer.addEventListener('click', () => {setTimeout(displayQuestion4(question4), 500); }); 
 }
 
+// question4
+function displayQuestion4(object) {
+    feedback.textContent = '';
+    questionText.textContent = object.question;
+    answer1Button.textContent = object.answer1.text;
+    answer2Button.textContent = object.answer2.text;
+    answer3Button.textContent = object.answer3.text;
+    answer4Button.textContent = object.answer4.text;
 
+    answer3Button.addEventListener('click', correctAnswer);
+    answersContainer.addEventListener('click', wrongAnswer);
+    answersContainer.addEventListener('click', () => {setTimeout(displayQuestion5(question5), 500); }); 
+}
 
+// question5
+function displayQuestion5(object) {
+    feedback.textContent = '';
+    questionText.textContent = object.question;
+    answer1Button.textContent = object.answer1.text;
+    answer2Button.textContent = object.answer2.text;
+    answer3Button.textContent = object.answer3.text;
+    answer4Button.textContent = object.answer4.text;
+
+    answer3Button.addEventListener('click', correctAnswer);
+    answersContainer.addEventListener('click', wrongAnswer);
+    answersContainer.addEventListener('click', () => {setTimeout(displayFinalScore(score), 500); }); 
+}
+
+// display final score
+// final score
+function displayFinalScore (score) {
+    welcomeSection.style.display = 'none';
+    questionSection.style.display = 'none';
+    finalScoreSection.style.display = 'flex';
+    finalScore.textContent = score;
+} 
+
+// main
 displayWelcomePage();
-startQuizButton.addEventListener('click', timer);
-displayQuestion(question1);
+startQuizButton.addEventListener('click', () => { timer(score); });
+displayQuestion1(question1);
+console.log('initial score is: ' + score)
