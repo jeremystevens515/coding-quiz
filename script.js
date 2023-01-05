@@ -138,36 +138,19 @@ function displayWelcomePage () {
 }
 
 // create timer
-// function timer(s) {
-//     welcomeSection.style.display = 'none';
-//     questionSection.style.display = 'flex';
-//     var timeLeft = s;
-
-//     var timerInterval = setInterval(function(){
-//         if (timeLeft >= 0) {
-//             score = timeLeft;
-//             countdown.textContent = score;
-//             console.log(timeLeft);
-//             timeLeft--;
-//             return;
-//         } else if (score === 0) {
-//             clearInterval(timerInterval);
-//             displayFinalScore(score)
-//         } else {
-//             clearInterval(timerInterval);
-//         }
-//     }, 1000);
-// }
-
 function timer() {
     welcomeSection.style.display = 'none';
     questionSection.style.display = 'flex';
 
     var timerInterval = setInterval(function(){
-        if (score >= 0) {
+        if (score > 0) {
             countdown.textContent = score;
-            console.log(score);
+            // console.log(score);
             score--;
+        } else if (score < 0) {
+            score = 0;
+            clearInterval(timerInterval);
+            displayFinalScore(score);
         } else if (score === 0) {
             clearInterval(timerInterval);
             displayFinalScore(score);
@@ -176,20 +159,6 @@ function timer() {
         }
     }, 1000);
 }
-
-// function delay() {
-//     var delayInterval = setInterval( function() {
-//         var i = 0
-//         if (i < 1) {
-//             console.log('delay');
-//             i = i + 1
-//             clearInterval(delayInterval);
-//             return;
-//         } 
-//     }, 1000)
-// }
-
-
 
 // grading
 // wrong answer
@@ -208,113 +177,156 @@ function correctAnswer (event) {
     console.log('correct button click');
     feedback.textContent = 'Correct!'
 }
-
+function testFunction () {setTimeout(function() {displayQuestion2(question2);}, 500);}
 // display questions
 // question 1
-function displayQuestion1(object) {
+function displayQuestion1() {
+    console.log('question 1');
     feedback.textContent = '';
-    questionText.textContent = object.question;
-    answer1Button.textContent = object.answer1.text;
-    answer2Button.textContent = object.answer2.text;
-    answer3Button.textContent = object.answer3.text;
-    answer4Button.textContent = object.answer4.text;
+    questionText.textContent = 'Commonly used data types do NOT include: ';
+    answer1Button.textContent = 'strings';
+    answer2Button.textContent = 'booleans;'
+    answer3Button.textContent = 'alerts';
+    answer4Button.textContent = 'numbers';
 
+    // add event listeners
     answer1Button.addEventListener('click', wrongAnswer);
     answer2Button.addEventListener('click', wrongAnswer);
     answer3Button.addEventListener('click', correctAnswer);
     answer4Button.addEventListener('click', wrongAnswer);
-    answersContainer.addEventListener('click', function () {
-        setTimeout(function () {displayQuestion2(question2)}, 500);
-    });
+    answersContainer.addEventListener('click', testFunction);
 }
+   
 
 // question2
-function displayQuestion2(object) {
+function displayQuestion2() {
+    console.log('question 2');
     feedback.textContent = '';
-    questionText.textContent = object.question;
-    answer1Button.textContent = object.answer1.text;
-    answer2Button.textContent = object.answer2.text;
-    answer3Button.textContent = object.answer3.text;
-    answer4Button.textContent = object.answer4.text;
+    questionText.textContent = 'The condition of an if/else statement is enclosed within _____.';
+    answer1Button.textContent = 'quotes';
+    answer2Button.textContent = 'curly braces';
+    answer3Button.textContent = 'parentheses';
+    answer4Button.textContent = 'square brackets';
 
+    // remove event listeners from previous question
+    answer1Button.removeEventListener('click', wrongAnswer);
+    answer2Button.removeEventListener('click', wrongAnswer);
+    answer3Button.removeEventListener('click', correctAnswer);
+    answer4Button.removeEventListener('click', wrongAnswer);
+    answersContainer.removeEventListener('click', testFunction);
+
+    // add event listeners
     answer1Button.addEventListener('click', wrongAnswer);
     answer2Button.addEventListener('click', wrongAnswer);
     answer3Button.addEventListener('click', correctAnswer);
     answer4Button.addEventListener('click', wrongAnswer);
     answersContainer.addEventListener('click', function () {
-        setTimeout(function () {displayQuestion3(question3)}, 500);
+        setTimeout(function() {
+            displayQuestion3(question3);
+        }, 500);
     });
+
 }
 
 // question3
-function displayQuestion3(object) {
+function displayQuestion3() {
+    console.log('question 3');
     feedback.textContent = '';
-    questionText.textContent = object.question;
-    answer1Button.textContent = object.answer1.text;
-    answer2Button.textContent = object.answer2.text;
-    answer3Button.textContent = object.answer3.text;
-    answer4Button.textContent = object.answer4.text;
+    questionText.textContent = 'Arrays in JavaScript are used to store _____.'
+    answer1Button.textContent = 'numbers and strings';
+    answer2Button.textContent = 'other arrays';
+    answer3Button.textContent = 'booleans';
+    answer4Button.textContent = 'all of the above';
 
+    // remove event listeners from previous question
+    answer1Button.removeEventListener('click', wrongAnswer);
+    answer2Button.removeEventListener('click', wrongAnswer);
+    answer3Button.removeEventListener('click', correctAnswer);
+    answer4Button.removeEventListener('click', wrongAnswer);
+    answersContainer.removeEventListener('click', function () {setTimeout(function() {displayQuestion3(question3)}, 500);});
+    
+    // add event listeners
     answer1Button.addEventListener('click', wrongAnswer);
     answer2Button.addEventListener('click', wrongAnswer);
     answer3Button.addEventListener('click', wrongAnswer);
     answer4Button.addEventListener('click', correctAnswer);
-    answersContainer.addEventListener('click', function () {
-        setTimeout(function() {displayQuestion4(question4)}, 500);
-    });
+    answersContainer.addEventListener('click', function () {setTimeout(function() {displayQuestion4(question4)}, 500);});
+    // remove event listeners
+    // answer1Button.removeEventListener('click', wrongAnswer);
+    // answer2Button.removeEventListener('click', wrongAnswer);
+    // answer3Button.removeEventListener('click', wrongAnswer);
+    // answer4Button.removeEventListener('click', correctAnswer);
+    // answersContainer.removeEventListener('click', function () {setTimeout(function() {displayQuestion4(question4)}, 500);});
 }
 
 // question4
-function displayQuestion4(object) {
+function displayQuestion4() {
+    console.log('question 4');
     feedback.textContent = '';
-    questionText.textContent = object.question;
-    answer1Button.textContent = object.answer1.text;
-    answer2Button.textContent = object.answer2.text;
-    answer3Button.textContent = object.answer3.text;
-    answer4Button.textContent = object.answer4.text;
-
+    questionText.textContent = 'String values must be enclosed within _____ when being assigned to variables.'
+    answer1Button.textContent = 'commas';
+    answer2Button.textContent = 'curly braces';
+    answer3Button.textContent = 'quotes';
+    answer4Button.textContent = 'parentheses';
+    // add event listeners
     answer1Button.addEventListener('click', wrongAnswer);
     answer2Button.addEventListener('click', wrongAnswer);
     answer3Button.addEventListener('click', correctAnswer);
     answer4Button.addEventListener('click', wrongAnswer);
-    answersContainer.addEventListener('click', function () {
-        setTimeout(function () {displayQuestion5(question5)}), 500;
-    }); 
+    answersContainer.addEventListener('click', function () {setTimeout(function() {displayQuestion5(question5)}), 500;});
+    // remove event listeners
+    // answer1Button.removeEventListener('click', wrongAnswer);
+    // answer2Button.removeEventListener('click', wrongAnswer);
+    // answer3Button.removeEventListener('click', correctAnswer);
+    // answer4Button.removeEventListener('click', wrongAnswer);
+    // answersContainer.removeEventListener('click', function () {setTimeout(function() {displayQuestion5(question5)}), 500;});
 }
 
 // question5
-function displayQuestion5(object) {
+function displayQuestion5() {
+    console.log('question 5');
     feedback.textContent = '';
-    questionText.textContent = object.question;
-    answer1Button.textContent = object.answer1.text;
-    answer2Button.textContent = object.answer2.text;
-    answer3Button.textContent = object.answer3.text;
-    answer4Button.textContent = object.answer4.text;
-
+    questionText.textContent = 'A useful tool used during development and debugging for printing content to the debugger is: '
+    answer1Button.textContent = 'JavaScript';
+    answer2Button.textContent = 'terminal/bash';
+    answer3Button.textContent = 'for loops';
+    answer4Button.textContent = 'console.log';
+    // add event listeners
     answer1Button.addEventListener('click', wrongAnswer);
     answer2Button.addEventListener('click', wrongAnswer);
     answer3Button.addEventListener('click', correctAnswer);
     answer4Button.addEventListener('click', wrongAnswer);
-    answersContainer.addEventListener('click', function () {
-        setTimeout(function () {displayFinalScore()}, 500)
-    });
+    answersContainer.addEventListener('click', function () {setTimeout(function () {displayFinalScore(score)}, 500)});
+    // remove event listeners
+//     answer1Button.removeEventListener('click', wrongAnswer);
+//     answer2Button.removeEventListener('click', wrongAnswer);
+//     answer3Button.removeEventListener('click', correctAnswer);
+//     answer4Button.removeEventListener('click', wrongAnswer);
+//     answersContainer.removeEventListener('click', function () {setTimeout(function () {displayFinalScore(score)}, 500)});
 }
 
 // display final score
 // final score
 function displayFinalScore (score) {
+    console.log('final score section');
     welcomeSection.style.display = 'none';
     questionSection.style.display = 'none';
     finalScoreSection.style.display = 'flex';
     finalScore.textContent = score;
+    console.log('final score: ' + score);
 } 
 
 // init
-function init() {
-    displayWelcomePage();
-    startQuizButton.addEventListener('click', timer);
-    displayQuestion1(question1);
-    console.log('initial score is: ' + score)
-}
+// function init() {
+//     displayWelcomePage();
+//     startQuizButton.addEventListener('click', timer);
+//     displayQuestion1(question1);
+//     console.log('initial score is: ' + score)
+// }
 
-init();
+// init();
+
+// starts quiz without timer to debug
+console.log('initial score is: ' + score);
+startQuizButton.addEventListener('click', function() {displayQuestion1(question1)});
+console.log();
