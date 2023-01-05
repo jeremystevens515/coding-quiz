@@ -11,7 +11,8 @@ var startQuizButton = document.querySelector('.start-quiz-button');
 
 // question section
 var questionSection = document.querySelector('.question');
-var answersContainer = document.querySelector('.answers');
+var answersContainer = document.querySelector('#answers-container');
+var answersList = document.querySelector('.answers');
 var questionText = document.querySelector('.question-text');
 var answer1Button = document.querySelector('#answer1');
 var answer2Button = document.querySelector('#answer2');
@@ -137,40 +138,74 @@ function displayWelcomePage () {
 }
 
 // create timer
-function timer(s) {
+// function timer(s) {
+//     welcomeSection.style.display = 'none';
+//     questionSection.style.display = 'flex';
+//     var timeLeft = s;
+
+//     var timerInterval = setInterval(function(){
+//         if (timeLeft >= 0) {
+//             score = timeLeft;
+//             countdown.textContent = score;
+//             console.log(timeLeft);
+//             timeLeft--;
+//             return;
+//         } else if (score === 0) {
+//             clearInterval(timerInterval);
+//             displayFinalScore(score)
+//         } else {
+//             clearInterval(timerInterval);
+//         }
+//     }, 1000);
+// }
+
+function timer() {
     welcomeSection.style.display = 'none';
     questionSection.style.display = 'flex';
-    var timeLeft = s;
 
     var timerInterval = setInterval(function(){
-        if (timeLeft >= 0) {
-            score = timeLeft;
+        if (score >= 0) {
             countdown.textContent = score;
-            console.log(timeLeft);
-            timeLeft--;
-            return;
+            console.log(score);
+            score--;
         } else if (score === 0) {
             clearInterval(timerInterval);
-            displayFinalScore(score)
+            displayFinalScore(score);
         } else {
             clearInterval(timerInterval);
         }
     }, 1000);
 }
 
+// function delay() {
+//     var delayInterval = setInterval( function() {
+//         var i = 0
+//         if (i < 1) {
+//             console.log('delay');
+//             i = i + 1
+//             clearInterval(delayInterval);
+//             return;
+//         } 
+//     }, 1000)
+// }
+
+
+
 // grading
 // wrong answer
-function wrongAnswer () {
-    console.log('container click');
+function wrongAnswer (event) {
+    // event.stopPropagation();
+    console.log('wrong button click');
     feedback.textContent = 'Incorrect';
     score = score - 15;
     countdown.textContent = score;
     console.log('Current score is: ' + score);
 }
+
 //  correct answer
 function correctAnswer (event) {
-    console.log('button click');
     // event.stopPropagation();
+    console.log('correct button click');
     feedback.textContent = 'Correct!'
 }
 
@@ -184,9 +219,13 @@ function displayQuestion1(object) {
     answer3Button.textContent = object.answer3.text;
     answer4Button.textContent = object.answer4.text;
 
+    answer1Button.addEventListener('click', wrongAnswer);
+    answer2Button.addEventListener('click', wrongAnswer);
     answer3Button.addEventListener('click', correctAnswer);
-    answersContainer.addEventListener('click', wrongAnswer, true);
-    answersContainer.addEventListener('click', () => {setTimeout(displayQuestion2(question2), 1000); }), true;     
+    answer4Button.addEventListener('click', wrongAnswer);
+    answersContainer.addEventListener('click', function () {
+        setTimeout(function () {displayQuestion2(question2)}, 500);
+    });
 }
 
 // question2
@@ -198,9 +237,13 @@ function displayQuestion2(object) {
     answer3Button.textContent = object.answer3.text;
     answer4Button.textContent = object.answer4.text;
 
+    answer1Button.addEventListener('click', wrongAnswer);
+    answer2Button.addEventListener('click', wrongAnswer);
     answer3Button.addEventListener('click', correctAnswer);
-    answersContainer.addEventListener('click', wrongAnswer);
-    answersContainer.addEventListener('click', () => {setTimeout(displayQuestion3(question3), 500); }); 
+    answer4Button.addEventListener('click', wrongAnswer);
+    answersContainer.addEventListener('click', function () {
+        setTimeout(function () {displayQuestion3(question3)}, 500);
+    });
 }
 
 // question3
@@ -212,9 +255,13 @@ function displayQuestion3(object) {
     answer3Button.textContent = object.answer3.text;
     answer4Button.textContent = object.answer4.text;
 
+    answer1Button.addEventListener('click', wrongAnswer);
+    answer2Button.addEventListener('click', wrongAnswer);
+    answer3Button.addEventListener('click', wrongAnswer);
     answer4Button.addEventListener('click', correctAnswer);
-    answersContainer.addEventListener('click', wrongAnswer);
-    answersContainer.addEventListener('click', () => {setTimeout(displayQuestion4(question4), 500); }); 
+    answersContainer.addEventListener('click', function () {
+        setTimeout(function() {displayQuestion4(question4)}, 500);
+    });
 }
 
 // question4
@@ -226,9 +273,13 @@ function displayQuestion4(object) {
     answer3Button.textContent = object.answer3.text;
     answer4Button.textContent = object.answer4.text;
 
+    answer1Button.addEventListener('click', wrongAnswer);
+    answer2Button.addEventListener('click', wrongAnswer);
     answer3Button.addEventListener('click', correctAnswer);
-    answersContainer.addEventListener('click', wrongAnswer);
-    answersContainer.addEventListener('click', () => {setTimeout(displayQuestion5(question5), 500); }); 
+    answer4Button.addEventListener('click', wrongAnswer);
+    answersContainer.addEventListener('click', function () {
+        setTimeout(function () {displayQuestion5(question5)}), 500;
+    }); 
 }
 
 // question5
@@ -240,9 +291,13 @@ function displayQuestion5(object) {
     answer3Button.textContent = object.answer3.text;
     answer4Button.textContent = object.answer4.text;
 
+    answer1Button.addEventListener('click', wrongAnswer);
+    answer2Button.addEventListener('click', wrongAnswer);
     answer3Button.addEventListener('click', correctAnswer);
-    answersContainer.addEventListener('click', wrongAnswer);
-    answersContainer.addEventListener('click', () => {setTimeout(displayFinalScore(score), 500); }); 
+    answer4Button.addEventListener('click', wrongAnswer);
+    answersContainer.addEventListener('click', function () {
+        setTimeout(function () {displayFinalScore()}, 500)
+    });
 }
 
 // display final score
@@ -254,8 +309,12 @@ function displayFinalScore (score) {
     finalScore.textContent = score;
 } 
 
-// main
-displayWelcomePage();
-startQuizButton.addEventListener('click', () => { timer(score); });
-displayQuestion1(question1);
-console.log('initial score is: ' + score)
+// init
+function init() {
+    displayWelcomePage();
+    startQuizButton.addEventListener('click', timer);
+    displayQuestion1(question1);
+    console.log('initial score is: ' + score)
+}
+
+init();

@@ -33,7 +33,7 @@ section {
 }
 
 /* override section width to force list items to display at left side of container */
-#answer-container {
+#answers-container {
     display: flex;
     justify-content: flex-start;
     align-items: center;
