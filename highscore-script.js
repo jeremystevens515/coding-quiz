@@ -1,4 +1,5 @@
 var highscoreList = document.querySelector('.highscore-list');
+var highscoreListItem = document.querySelector('.highscore-list-item');
 var highscoreInitials = document.querySelector('#saved-initials');
 var savedFinalScore = document.querySelector('#saved-score');
 var clearHighscoresButton = document.querySelector('#clear-highscores');
@@ -21,6 +22,7 @@ function toWelcomePage () {
 }
 // clear highscores
 function clearHighscores () {
+    highscoreListItem.remove();
     localStorage.removeItem('initials');
     localStorage.removeItem('score');
     highscoreInitials.textContent = '(initials)';
