@@ -30,13 +30,6 @@ var initialsForm = document.querySelector('initials-form');
 var userInitialsInput = document.querySelector('#initials');
 var submitInitialsButton = document.querySelector('#submit-initials-button');
 
-// variables in highscore.html
-var highscoreList = document.querySelector('.highscore-list');
-var highscoreInitials = document.querySelector('#savedInitials');
-var finalScore = document.querySelector('#savedScore');
-var clearHighscoresButton = document.querySelector('#clear-highscores');
-var goBackButton = document.querySelector('#go-back');
-
 // default view
 function displayWelcomePage () {
     questionSection.style.display = 'none';
@@ -236,13 +229,12 @@ function displayFinalScore (score) {
     finalScore.textContent = score;
     console.log('final score: ' + score);
     localStorage.setItem('score', score);
-    submitInitialsButton.addEventListener('click', saveUserInitials);
+    submitInitialsButton.addEventListener('click', saveUserInfo);
     submitInitialsButton.addEventListener('click', redirectToHighscores);
-    submitInitialsButton.addEventListener('click', displayHighscore);
 } 
 
 // submit initials
-function saveUserInitials(event) {
+function saveUserInfo(event) {
     event.preventDefault();
     console.log('submit button clicked');
     var initials = userInitialsInput.value;
@@ -255,19 +247,6 @@ function redirectToHighscores () {
     window.location.href='highscore.html';
 }
 
-// display local storage items on highscore page
-function displayHighscore() {
-    var savedInitials = localStorage.getItem('initials');
-    console.log(savedInitials);
-    var savedScore = localStorage.getItem('score');
-    console.log(savedScore);
-    highscoreInitials.textContent = savedInitials;
-    finalScore.textContent = savedScore;
-}
-// go back to welcome page
-
-// clear highscores
-
 // initalize
 function init() {
     displayWelcomePage();
@@ -276,5 +255,4 @@ function init() {
     console.log('initial score is: ' + score)
 }
 
-// init();
-displayHighscore();
+init();
