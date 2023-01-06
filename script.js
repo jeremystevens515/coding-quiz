@@ -1,8 +1,11 @@
 // variables by parent, which store references to html elements
 // header
 var headerSection = document.querySelector('.header');
+var timerEl = document.querySelector('.timer');
 var countdown = document.querySelector('#countdown');
+var myTimer;
 var score = 75;
+var scoreisFinal = false;
 
 // main
 // welcome section
@@ -23,147 +26,52 @@ var feedback = document.querySelector('.feedback');
 // final score section
 var finalScoreSection = document.querySelector('.final-score');
 var finalScore = document.querySelector('#final-score');
-var userInit = document.querySelector('.initials');
-var submitInitButton = document.querySelector('.submit-init-button');
+var initialsForm = document.querySelector('initials-form');
+var userInitialsInput = document.querySelector('#initials');
+var submitInitialsButton = document.querySelector('#submit-initials-button');
 
 // variables in highscore.html
 var highscoreList = document.querySelector('.highscore-list');
+var highscoreInitials = document.querySelector('#savedInitials');
+var finalScore = document.querySelector('#savedScore');
 var clearHighscoresButton = document.querySelector('#clear-highscores');
 var goBackButton = document.querySelector('#go-back');
 
-// question objects
-var question1 = {
-    question: 'Commonly used data types do NOT include: ',
-    answer1: {
-        text: 'strings',
-        isCorrect: false
-    },
-    answer2: {
-        text: 'booleans',
-        isCorrect: false
-    },
-    answer3: {
-        text: 'alerts',
-        isCorrect: true
-    },
-    answer4: {
-        text: 'numbers',
-        isCorrect: false
-    }
-}
-
-var question2 = {
-    question: 'The condition of an if/else statement is enclosed within _____.',
-    answer1: {
-        text: 'quotes',
-        isCorrect: false
-    },
-    answer2: {
-        text: 'curly brackets',
-        isCorrect: false
-    },
-    answer3: {
-        text: 'parentheses',
-        isCorrect: true
-    },
-    answer4: {
-        text: 'square brackets',
-        isCorrect: false
-    }
-}
-
-var question3 = {
-    question: 'Arrays in JavaScript are used to store _____.',
-    answer1: {
-        text: 'numbers and strings',
-        isCorrect: false
-    },
-    answer2: {
-        text: 'other arrays',
-        isCorrect: false
-    },
-    answer3: {
-        text: 'booleans',
-        isCorrect: false
-    },
-    answer4: {
-        text: 'all of the above',
-        isCorrect: true
-    }
-}
-
-var question4 = {
-    question: 'String values must be enclosed within _____ when being assigned to variables.',
-    answer1: {
-        text: 'commas',
-        isCorrect: false
-    },
-    answer2: {
-        text: 'curly brackets',
-        isCorrect: false
-    },
-    answer3: {
-        text: 'quotes',
-        isCorrect: true
-    },
-    answer4: {
-        text: 'parentheses',
-        isCorrect: false
-    }
-}
-
-var question5 = {
-    question: 'A useful tool used during development and debugging for printing content to the debugger is: ' ,
-    answer1: {
-        text: 'JavaScript',
-        isCorrect: false
-    },
-    answer2: {
-        text: 'terminal/bash',
-        isCorrect: false
-    },
-    answer3: {
-        text: 'for loops',
-        isCorrect: false
-    },
-    answer4: {
-        text: 'console.log',
-        isCorrect: true
-    }
-}
 // default view
 function displayWelcomePage () {
     questionSection.style.display = 'none';
     finalScoreSection.style.display = 'none';
 }
 
-// create timer
+// test timer
 function timer() {
     welcomeSection.style.display = 'none';
     questionSection.style.display = 'flex';
+    console.log(scoreisFinal);
+    myTimer = setInterval(timerInterval, 1000);
+}
 
-    var timerInterval = setInterval(function(){
-        if (score > 0) {
-            countdown.textContent = score;
-            // console.log(score);
-            score--;
-        } else if (score < 0) {
-            score = 0;
-            clearInterval(timerInterval);
-            displayFinalScore(score);
-        } else if (score === 0) {
-            clearInterval(timerInterval);
-            displayFinalScore(score);
-        } else {
-            clearInterval(timerInterval);
-        }
-    }, 1000);
+function timerInterval() {
+        // if score is greater than zero, subtract 1 every second
+    if (scoreisFinal) {
+        clearInterval(myTimer);
+        displayFinalScore(score);
+    }  else if (score >= 0) {
+        countdown.textContent = score;
+        score--;
+    // if score reaches less than zero, set score to zero, stop timer, and display final score section
+    } else if (score <= 0) {
+        score = 0;
+        clearInterval(myTimer);
+        displayFinalScore(score);
+    } else {
+        clearInterval(myTimer);
+    }
 }
 
 // grading
 // wrong answer
-function wrongAnswer (event) {
-    // event.stopPropagation();
+function wrongAnswer () {
     console.log('wrong button click');
     feedback.textContent = 'Incorrect';
     score = score - 15;
@@ -172,12 +80,31 @@ function wrongAnswer (event) {
 }
 
 //  correct answer
-function correctAnswer (event) {
-    // event.stopPropagation();
+function correctAnswer () {
     console.log('correct button click');
     feedback.textContent = 'Correct!'
 }
-function testFunction () {setTimeout(function() {displayQuestion2(question2);}, 500);}
+
+// delay display event functions
+function delayQ2() {
+    setTimeout(displayQuestion2, 500);
+}
+
+function delayQ3() {
+    setTimeout(displayQuestion3, 500);
+}
+
+function delayQ4() {
+    setTimeout(displayQuestion4, 500);
+}
+
+function delayQ5() {
+    setTimeout(displayQuestion5, 500);
+}
+
+function delayFinalScore() {
+    setTimeout(displayFinalScore(score), 500);
+}
 // display questions
 // question 1
 function displayQuestion1() {
@@ -194,7 +121,7 @@ function displayQuestion1() {
     answer2Button.addEventListener('click', wrongAnswer);
     answer3Button.addEventListener('click', correctAnswer);
     answer4Button.addEventListener('click', wrongAnswer);
-    answersContainer.addEventListener('click', testFunction);
+    answersContainer.addEventListener('click', delayQ2);
 }
    
 
@@ -213,19 +140,14 @@ function displayQuestion2() {
     answer2Button.removeEventListener('click', wrongAnswer);
     answer3Button.removeEventListener('click', correctAnswer);
     answer4Button.removeEventListener('click', wrongAnswer);
-    answersContainer.removeEventListener('click', testFunction);
+    answersContainer.removeEventListener('click', delayQ2);
 
-    // add event listeners
+    // add new event listeners
     answer1Button.addEventListener('click', wrongAnswer);
     answer2Button.addEventListener('click', wrongAnswer);
     answer3Button.addEventListener('click', correctAnswer);
     answer4Button.addEventListener('click', wrongAnswer);
-    answersContainer.addEventListener('click', function () {
-        setTimeout(function() {
-            displayQuestion3(question3);
-        }, 500);
-    });
-
+    answersContainer.addEventListener('click', delayQ3);
 }
 
 // question3
@@ -243,20 +165,14 @@ function displayQuestion3() {
     answer2Button.removeEventListener('click', wrongAnswer);
     answer3Button.removeEventListener('click', correctAnswer);
     answer4Button.removeEventListener('click', wrongAnswer);
-    answersContainer.removeEventListener('click', function () {setTimeout(function() {displayQuestion3(question3)}, 500);});
+    answersContainer.removeEventListener('click', delayQ3);
     
-    // add event listeners
+    // add new event listeners
     answer1Button.addEventListener('click', wrongAnswer);
     answer2Button.addEventListener('click', wrongAnswer);
     answer3Button.addEventListener('click', wrongAnswer);
     answer4Button.addEventListener('click', correctAnswer);
-    answersContainer.addEventListener('click', function () {setTimeout(function() {displayQuestion4(question4)}, 500);});
-    // remove event listeners
-    // answer1Button.removeEventListener('click', wrongAnswer);
-    // answer2Button.removeEventListener('click', wrongAnswer);
-    // answer3Button.removeEventListener('click', wrongAnswer);
-    // answer4Button.removeEventListener('click', correctAnswer);
-    // answersContainer.removeEventListener('click', function () {setTimeout(function() {displayQuestion4(question4)}, 500);});
+    answersContainer.addEventListener('click', delayQ4);
 }
 
 // question4
@@ -268,18 +184,18 @@ function displayQuestion4() {
     answer2Button.textContent = 'curly braces';
     answer3Button.textContent = 'quotes';
     answer4Button.textContent = 'parentheses';
-    // add event listeners
+    // remove event listeners from previous question
+    answer1Button.removeEventListener('click', wrongAnswer);
+    answer2Button.removeEventListener('click', wrongAnswer);
+    answer3Button.removeEventListener('click', wrongAnswer);
+    answer4Button.removeEventListener('click', correctAnswer);
+    answersContainer.removeEventListener('click', delayQ4);
+    // add new event listeners
     answer1Button.addEventListener('click', wrongAnswer);
     answer2Button.addEventListener('click', wrongAnswer);
     answer3Button.addEventListener('click', correctAnswer);
     answer4Button.addEventListener('click', wrongAnswer);
-    answersContainer.addEventListener('click', function () {setTimeout(function() {displayQuestion5(question5)}), 500;});
-    // remove event listeners
-    // answer1Button.removeEventListener('click', wrongAnswer);
-    // answer2Button.removeEventListener('click', wrongAnswer);
-    // answer3Button.removeEventListener('click', correctAnswer);
-    // answer4Button.removeEventListener('click', wrongAnswer);
-    // answersContainer.removeEventListener('click', function () {setTimeout(function() {displayQuestion5(question5)}), 500;});
+    answersContainer.addEventListener('click', delayQ5);
 }
 
 // question5
@@ -291,42 +207,74 @@ function displayQuestion5() {
     answer2Button.textContent = 'terminal/bash';
     answer3Button.textContent = 'for loops';
     answer4Button.textContent = 'console.log';
-    // add event listeners
+
+    // remove event listeners from previous question
+    answer1Button.removeEventListener('click', wrongAnswer);
+    answer2Button.removeEventListener('click', wrongAnswer);
+    answer3Button.removeEventListener('click', correctAnswer);
+    answer4Button.removeEventListener('click', wrongAnswer);
+    answersContainer.removeEventListener('click', delayQ5);
+
+    // add new event listeners
     answer1Button.addEventListener('click', wrongAnswer);
     answer2Button.addEventListener('click', wrongAnswer);
-    answer3Button.addEventListener('click', correctAnswer);
-    answer4Button.addEventListener('click', wrongAnswer);
-    answersContainer.addEventListener('click', function () {setTimeout(function () {displayFinalScore(score)}, 500)});
-    // remove event listeners
-//     answer1Button.removeEventListener('click', wrongAnswer);
-//     answer2Button.removeEventListener('click', wrongAnswer);
-//     answer3Button.removeEventListener('click', correctAnswer);
-//     answer4Button.removeEventListener('click', wrongAnswer);
-//     answersContainer.removeEventListener('click', function () {setTimeout(function () {displayFinalScore(score)}, 500)});
+    answer3Button.addEventListener('click', wrongAnswer);
+    answer4Button.addEventListener('click', correctAnswer);
+    answersContainer.addEventListener('click', delayFinalScore);
 }
 
 // display final score
 // final score
 function displayFinalScore (score) {
+    scoreisFinal = true;
     console.log('final score section');
+    console.log('score is final' + scoreisFinal);
+    timerEl.style.display ='none';
     welcomeSection.style.display = 'none';
     questionSection.style.display = 'none';
     finalScoreSection.style.display = 'flex';
     finalScore.textContent = score;
     console.log('final score: ' + score);
+    localStorage.setItem('score', score);
+    submitInitialsButton.addEventListener('click', saveUserInitials);
+    submitInitialsButton.addEventListener('click', redirectToHighscores);
+    submitInitialsButton.addEventListener('click', displayHighscore);
 } 
 
-// init
-// function init() {
-//     displayWelcomePage();
-//     startQuizButton.addEventListener('click', timer);
-//     displayQuestion1(question1);
-//     console.log('initial score is: ' + score)
-// }
+// submit initials
+function saveUserInitials(event) {
+    event.preventDefault();
+    console.log('submit button clicked');
+    var initials = userInitialsInput.value;
+    console.log(initials);
+    localStorage.setItem('initials', initials)
+}
+
+// redirect to highscore page
+function redirectToHighscores () {
+    window.location.href='highscore.html';
+}
+
+// display local storage items on highscore page
+function displayHighscore() {
+    var savedInitials = localStorage.getItem('initials');
+    console.log(savedInitials);
+    var savedScore = localStorage.getItem('score');
+    console.log(savedScore);
+    highscoreInitials.textContent = savedInitials;
+    finalScore.textContent = savedScore;
+}
+// go back to welcome page
+
+// clear highscores
+
+// initalize
+function init() {
+    displayWelcomePage();
+    startQuizButton.addEventListener('click', timer);
+    displayQuestion1();
+    console.log('initial score is: ' + score)
+}
 
 // init();
-
-// starts quiz without timer to debug
-console.log('initial score is: ' + score);
-startQuizButton.addEventListener('click', function() {displayQuestion1(question1)});
-console.log();
+displayHighscore();
